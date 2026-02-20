@@ -1,4 +1,7 @@
 package br.com.infnet.sobreviventesapi.api.dto;
 
-public record RecursoResponse() {
+public record RecursoResponse(
+        Long id,
+        String nome,
+        int quantidade) {
 }

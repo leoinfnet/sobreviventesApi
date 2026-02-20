@@ -1,0 +1,206 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-02-20T00:00:00.000Z",
+  "__export_source": "chatgpt",
+  "resources": [
+    {
+      "_id": "wrk_apocalipse",
+      "_type": "workspace",
+      "name": "Apocalipse - Registro de Sobreviventes",
+      "description": "Coleção para testar endpoints do projeto (Spring Boot + Spring Data JPA + H2)."
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_apocalipse",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8080",
+        "SURVIVOR_ID": 1,
+        "COMUNIDADE_ID": 1,
+        "RECURSO_ID": 1
+      }
+    },
+    {
+      "_id": "fld_apis",
+      "_type": "request_group",
+      "parentId": "wrk_apocalipse",
+      "name": "API - Registro",
+      "description": "Execute na ordem: Comunidades -> Sobreviventes -> Recursos -> Associação -> Ações -> Consultas"
+    },
+
+    {
+      "_id": "req_01_criar_comunidade",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "1) Criar Comunidade (zona segura)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/comunidades",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Abrigo Central\",\n  \"zonaSegura\": true\n}\n"
+      }
+    },
+    {
+      "_id": "req_02_criar_comunidade2",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "2) Criar Comunidade (não segura)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/comunidades",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Mercado Cinzento\",\n  \"zonaSegura\": false\n}\n"
+      }
+    },
+
+    {
+      "_id": "req_03_registrar_sobrevivente",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "3) Registrar Sobrevivente",
+      "method": "POST",
+      "url": "{{ _.base_url }}/sobreviventes",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Mara\",\n  \"localizacao\": \"Setor 7 - Norte\"\n}\n"
+      }
+    },
+    {
+      "_id": "req_04_registrar_sobrevivente2",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "4) Registrar Outro Sobrevivente",
+      "method": "POST",
+      "url": "{{ _.base_url }}/sobreviventes",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Dante\",\n  \"localizacao\": \"Estacao Antiga - Plataforma 2\"\n}\n"
+      }
+    },
+
+    {
+      "_id": "req_05_add_recurso",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "5) Adicionar Recurso ao Sobrevivente",
+      "method": "POST",
+      "url": "{{ _.base_url }}/sobreviventes/{{ _.SURVIVOR_ID }}/recursos",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Agua\",\n  \"quantidade\": 10\n}\n"
+      }
+    },
+    {
+      "_id": "req_06_add_recurso2",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "6) Adicionar Outro Recurso ao Sobrevivente",
+      "method": "POST",
+      "url": "{{ _.base_url }}/sobreviventes/{{ _.SURVIVOR_ID }}/recursos",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Comida\",\n  \"quantidade\": 5\n}\n"
+      }
+    },
+
+    {
+      "_id": "req_07_associar_comunidade",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "7) Associar Sobrevivente a Comunidade",
+      "method": "POST",
+      "url": "{{ _.base_url }}/sobreviventes/{{ _.SURVIVOR_ID }}/comunidades/{{ _.COMUNIDADE_ID }}",
+      "headers": []
+    },
+
+    {
+      "_id": "req_08_marcar_infectado",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "8) Marcar Sobrevivente como Infectado",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/sobreviventes/{{ _.SURVIVOR_ID }}/infectado",
+      "headers": []
+    },
+
+    {
+      "_id": "req_09_listar_nao_infectados",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "9) Listar Não Infectados",
+      "method": "GET",
+      "url": "{{ _.base_url }}/sobreviventes/nao-infectados",
+      "headers": []
+    },
+    {
+      "_id": "req_10_contagem",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "10) Contagem Infectados vs Não Infectados",
+      "method": "GET",
+      "url": "{{ _.base_url }}/sobreviventes/contagem",
+      "headers": []
+    },
+
+    {
+      "_id": "req_11_remover_recurso",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "11) Remover Recurso do Sobrevivente (orphanRemoval)",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/sobreviventes/{{ _.SURVIVOR_ID }}/recursos/{{ _.RECURSO_ID }}",
+      "headers": []
+    },
+
+    {
+      "_id": "req_12_teste_validacao_nome_vazio",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "12) Teste Validação (nome vazio) - Deve dar 400",
+      "method": "POST",
+      "url": "{{ _.base_url }}/sobreviventes",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"\",\n  \"localizacao\": \"Lugar X\"\n}\n"
+      }
+    },
+    {
+      "_id": "req_13_teste_validacao_recurso_qtd_zero",
+      "_type": "request",
+      "parentId": "fld_apis",
+      "name": "13) Teste Validação Recurso (quantidade 0) - Deve dar 400",
+      "method": "POST",
+      "url": "{{ _.base_url }}/sobreviventes/{{ _.SURVIVOR_ID }}/recursos",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Agua\",\n  \"quantidade\": 0\n}\n"
+      }
+    }
+  ]
+}
