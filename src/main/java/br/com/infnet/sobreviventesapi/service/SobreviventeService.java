@@ -27,6 +27,7 @@ public class SobreviventeService {
                 .toList();
     }
 
+    @Transactional
     public void marcarComoInfectado(Long id){
         Sobrevivente s = buscar(id);   //Managed
         s.marcarComoInfectado();
