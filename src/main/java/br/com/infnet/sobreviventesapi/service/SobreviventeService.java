@@ -7,6 +7,7 @@ import br.com.infnet.sobreviventesapi.repository.SobreviventeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +68,10 @@ public class SobreviventeService {
         return sobreviventeRepository.findAll(pageable)
                 .map(this::toResponseSimple);
 
+    }
+    public Slice<SobreviventeSimples> buscarTodosSliced(Pageable pageable){
+        return sobreviventeRepository.findAll(pageable)
+                .map(this::toResponseSimple);
     }
     private  SobreviventeSimples toResponseSimple(Sobrevivente saved) {
         return new SobreviventeSimples(
