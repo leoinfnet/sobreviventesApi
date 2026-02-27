@@ -5,6 +5,8 @@ import br.com.infnet.sobreviventesapi.api.exception.EntidadeNaoLocalizadaExcepti
 import br.com.infnet.sobreviventesapi.domain.Sobrevivente;
 import br.com.infnet.sobreviventesapi.repository.SobreviventeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,19 +28,18 @@ public class SobreviventeService {
                 .map(this::toResponse)
                 .toList();
     }
-
+    @Transactional
     public void marcarComoInfectado(Long id){
         Sobrevivente s = buscar(id);   //Managed
         s.marcarComoInfectado();
         //Dirty Checking
     }
     public ContagemResponse contagem(){
-        var all = sobreviventeRepository.findAll();
-        long infectados = all.stream().filter(Sobrevivente::isInfectado).count();
-        return new ContagemResponse(infectados,all.size() - infectados);
+        long total = sobreviventeRepository.count();
+        long infectados = sobreviventeRepository
+                .countAllByInfectado(true);
+        return new ContagemResponse(infectados,total - infectados);
     }
-
-
 
     public SobreviventeResponse adicionarRecurso(Long sobreviventeId,
                                                  AdicionarRecursoRequest request){
@@ -53,7 +54,28 @@ public class SobreviventeService {
                 () -> new IllegalArgumentException("Sobrevivente Não encontrado"));
     }
 
-    private  SobreviventeResponse toResponse(Sobrevivente saved) {
+
+    @Transactional(readOnly = true)
+    public SobreviventeResponse buscarPorId(Long id) {
+        Sobrevivente sobrevivente = sobreviventeRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoLocalizadaException("Sobrevivente Não encontrado"));
+        return toResponse(sobrevivente);
+
+    }
+
+    public Page<SobreviventeSimples> buscarTodos(Pageable pageable){
+        return sobreviventeRepository.findAll(pageable)
+                .map(this::toResponseSimple);
+
+    }
+    private  SobreviventeSimples toResponseSimple(Sobrevivente saved) {
+        return new SobreviventeSimples(
+                saved.getId(), saved.getNome(), saved.getLocalizacao(),
+                saved.isInfectado());
+
+    }
+
+        private  SobreviventeResponse toResponse(Sobrevivente saved) {
         return new SobreviventeResponse(
                 saved.getId(), saved.getNome(), saved.getLocalizacao(),
                 saved.isInfectado(),
@@ -65,11 +87,5 @@ public class SobreviventeService {
                         .collect(Collectors.toSet())
         );
     }
-    @Transactional(readOnly = true)
-    public SobreviventeResponse buscarPorId(Long id) {
-        Sobrevivente sobrevivente = sobreviventeRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoLocalizadaException("Sobrevivente Não encontrado"));
-        return toResponse(sobrevivente);
 
-    }
 }
