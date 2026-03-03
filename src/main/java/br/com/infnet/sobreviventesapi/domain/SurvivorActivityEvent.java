@@ -18,7 +18,6 @@ public class SurvivorActivityEvent {
     )
     private Long id;
 
-
     @Column(name = "survivor_id", nullable = false)
     private Long survivorId;
 
