@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,7 @@ public class SobreviventeService {
     public void marcarComoInfectado(Long id){
         Sobrevivente s = buscar(id);   //Managed
         s.marcarComoInfectado();
+
         //Dirty Checking
     }
     public ContagemResponse contagem(){
