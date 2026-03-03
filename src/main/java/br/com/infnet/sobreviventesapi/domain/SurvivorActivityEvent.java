@@ -9,7 +9,13 @@ import java.time.Instant;
 @Entity
 @Getter@Setter
 public class SurvivorActivityEvent {
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "survivor_activity_event_seq")
+    @SequenceGenerator(
+            name = "survivor_activity_event_seq",
+            sequenceName = "survivor_activity_event_seq",
+            allocationSize = 50
+    )
     private Long id;
 
     // Quem gerou o evento (chave de agregação principal)

@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:17.8-alpine3.23
+    container_name: survivor-postgres
+    environment:
+      POSTGRES_DB: survivor_db
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+    ports:
+      - "5432:5432"
+    volumes:
+      - survivor_pgdata:/var/lib/postgresql/data
+      - ./init/:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d survivor_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  redis:
+    image: redis:7.4-alpine
+    container_name: survivor-redis
+    command: [ "redis-server", "--appendonly", "yes" ]
+    ports:
+      - "6379:6379"
+    volumes:
+      - survivor_redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: survivor-redisinsight
+    ports:
+      - "5540:5540"
+    depends_on:
+      redis:
+        condition: service_healthy
+
+volumes:
+  survivor_pgdata:
+  survivor_redis_data:
