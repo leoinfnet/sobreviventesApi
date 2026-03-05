@@ -1,6 +1,12 @@
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
   application:
     name: sobreviventesApi
+  cache:
+    type: redis
   datasource:
     #url: jdbc:h2:mem:apocalipse;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     url: jdbc:postgresql://localhost:5432/survivor_db

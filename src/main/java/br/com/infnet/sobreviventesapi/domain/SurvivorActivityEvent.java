@@ -1,7 +1,6 @@
 package br.com.infnet.sobreviventesapi.domain;
 
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,5 +54,4 @@ public class SurvivorActivityEvent {
         ALLY_RESCUED,
         BASE_UPGRADED
     }
-
 }
