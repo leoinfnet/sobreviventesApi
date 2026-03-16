@@ -15,17 +15,17 @@ public class LeaderboardServiceTests {
     @Test
     void printTop10LastWeek() {
 
-        List<LeaderboardRow> ranking = service.top10LastWeek();
-
-        System.out.println("=== TOP 10 LAST WEEK ===");
-
-        ranking.forEach(row ->
-                System.out.println(
-                        "Survivor: " + row.suvivorId() +
-                                " | Score: " + row.totalScore()
-                )
-        );
-
-        System.out.println("========================");
+//        List<LeaderboardRow> ranking = service.top10LastWeek();
+//
+//        System.out.println("=== TOP 10 LAST WEEK ===");
+//
+//        ranking.forEach(row ->
+//                System.out.println(
+//                        "Survivor: " + row.suvivorId() +
+//                                " | Score: " + row.totalScore()
+//                )
+//        );
+//
+//        System.out.println("========================");
     }
 }

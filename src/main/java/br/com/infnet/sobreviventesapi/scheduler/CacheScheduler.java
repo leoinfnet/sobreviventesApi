@@ -14,8 +14,8 @@ public class CacheScheduler {
         this.cache = cache;
         this.service = service;
     }
-    //@Scheduled(fixedRate = 10000)
-    @Scheduled(cron = "0 0 0 ? * DOM")
+    @Scheduled(fixedRate = 10000000)
+  //  @Scheduled(cron = "0 0 0 ? * DOM")
     public void clearCache(){
         System.out.println("Limpando o cache");
         service.evictCache();

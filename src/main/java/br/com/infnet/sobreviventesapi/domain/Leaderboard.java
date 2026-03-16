@@ -20,5 +20,4 @@ public class Leaderboard implements Serializable {
     private Long id;
     @Column(name = "total_score")
     private Long totalScore;
-
 }

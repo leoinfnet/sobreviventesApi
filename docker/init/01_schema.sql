@@ -142,3 +142,11 @@ alter table sobreviventes_recursos
     add constraint FK2xvih9jpjtg2j0txa14dcsnah
         foreign key (sobrevivente_id)
             references sobreviventes;
+
+
+CREATE OR REPLACE VIEW leaderboard AS
+SELECT
+    e.survivor_id,
+    SUM(e.score_value) AS total_score
+FROM survivor_activity_event e
+GROUP BY e.survivor_id;

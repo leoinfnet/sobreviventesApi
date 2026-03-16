@@ -16,6 +16,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    networks:
+      - elastic
   redis:
     image: redis:7.4-alpine
     container_name: survivor_redis
@@ -29,7 +31,33 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
+    networks:
+      - elastic
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.3.1
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.ml.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elastic
+  kibana:
+      image: docker.elastic.co/kibana/kibana:9.3.1
+      container_name: kibana
+      environment:
+        - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      ports:
+        - "5601:5601"
+      networks:
+        - elastic
 
+networks:
+  elastic:
+    external: true
 volumes:
   survivor_pgdata:
   survivor_redis_data:
