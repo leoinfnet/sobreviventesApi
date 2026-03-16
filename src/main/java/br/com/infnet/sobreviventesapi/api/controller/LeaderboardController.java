@@ -26,13 +26,6 @@ public class LeaderboardController {
             @RequestParam(name = "top", defaultValue = "10") int top
     ) {
         // proteção básica pra não deixar alguém pedir top=999999 e derrubar o mundo
-        int safeTop = Math.min(Math.max(top, 1), 100);
-
-        // Se você quiser fixar em 10 e ignorar o param, é só chamar service.top10LastWeek()
-        List<LeaderboardRow> result = (safeTop == 10)
-                ? service.top10LastWeek()
-                : service.topLastWeek(safeTop); // crie esse método se quiser
-
-        return ResponseEntity.ok(result);
+        return null;
     }
 }

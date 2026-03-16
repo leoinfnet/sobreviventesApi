@@ -18,10 +18,10 @@ public class LeaderboardCacheScheduler {
     @Scheduled(fixedRate = 10000)
     public void clearWeeklyLeaderboardCache() {
         log.info("Limpando cache do leaderboard...");
-        service.evictWeeklyLeaderboard();
+      //  service.evictWeeklyLeaderboard();
 
         log.info("Aquecendo cache do leaderboard...");
-        service.top10LastWeek();
+      //  service.top10LastWeek();
 
         log.info("Cache do leaderboard aquecido com sucesso.");
     }
